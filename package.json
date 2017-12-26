@@ -18,11 +18,12 @@
     "serve:dist:aot": "static dist -H '{\"Cache-Control\": \"no-cache, must-revalidate\"}' -z"
   },
   "dependencies": {
-    "@types/three": "^0.84.35",
+    "bootstrap": "^3.3.7",
     "jquery": "^3.2.1",
     "three-js": "^79.0.0"
   },
   "devDependencies": {
+    "@types/three": "^0.84.35",
     "@types/es6-shim": "^0.31.35",
     "@types/jasmine": "^2.8.2",
     "compression-webpack-plugin": "^1.1.3",

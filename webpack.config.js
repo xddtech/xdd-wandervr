@@ -37,10 +37,10 @@ module.exports = {
   },
   output: {
     path    : path.join(__dirname, 'dist'),
-    filename: 'bundle.js'
+    filename: 'wandervr-bundle.js'
   },
   plugins: [
-    new CommonsChunkPlugin({name: 'vendor', filename: 'vendor.bundle.js', minChunks: Infinity}),
+    new CommonsChunkPlugin({name: 'vendor', filename: 'wandervr-vendor.bundle.js', minChunks: Infinity}),
     new DefinePlugin({'webpack': {'ENV': JSON.stringify(metadata.env)}}),
     new ContextReplacementPlugin(
       // needed as a workaround for the Angular's internal use System.import()

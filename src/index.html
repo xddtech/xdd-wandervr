@@ -4,10 +4,22 @@
   <meta charset=UTF-8>
   <title>Wander VR</title>
   <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <!-- Origin Trial Token, feature = WebVR (For Chrome M62+), origin = https://threejs.org, expires = 2017-12-16 -->
+  <!--
+  <meta http-equiv="origin-trial" data-feature="WebVR (For Chrome M62+)" data-expires="2017-12-16" content="AvEXeg7kY84HQ60ApBlqf6zPqClJwEy499YltannXHd+qIIN8ibQQFbHDkKL/Na/L7ha4VOqsjsGHhFpI6HYfgAAAABQeyJvcmlnaW4iOiJodHRwczovL3RocmVlanMub3JnOjQ0MyIsImZlYXR1cmUiOiJXZWJWUjEuMU02MiIsImV4cGlyeSI6MTUxMzQ0NjE5Nn0=">
+  -->
+  <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+  <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap-theme.css">
+  <link rel="stylesheet" href="assets/css/wandervr.css">
+  
 </head>
 <body>
-  <my-app>Loading...</my-app>
-  <script src="vendor.bundle.js"></script>
-  <script src="bundle.js"></script>
+  <div id="app-content"></div>
+
+  <script src="node_modules/jquery/dist/jquery.js"></script>
+  <script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
+  <script src="wandervr-vendor.bundle.js"></script>
+  <script src="wandervr-bundle.js"></script>
 </body>
 </html>
