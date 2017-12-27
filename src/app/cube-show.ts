@@ -17,7 +17,7 @@ export class CubeShow {
     static room: THREE.Mesh;
  
     constructor(showElement: HTMLElement) {
-        showElement.innerHTML = 'Hi';
+        //showElement.innerHTML = 'Hi';
         this.init(showElement);
     }
 

@@ -40,11 +40,7 @@ module.exports = {
     new CompressionPlugin({regExp: /\.css$|\.html$|\.js$|\.map$/}),
     new CopyWebpackPlugin([{from: './src/index.html', to: 'index.html'},
                            {from: './src/assets', to: 'assets/'},
-                           {from: './src/libs', to: 'libs/'},
-                           {from: './node_modules/bootstrap/dist/js/bootstrap.js', to: 'node_modules/bootstrap/dist/js/bootstrap.js'},
-                           {from: './node_modules/jquery/dist/jquery.js', to: 'node_modules/jquery/dist/jquery.js'},
-                           {from: './node_modules/bootstrap/dist/css/bootstrap-theme.css', to: 'node_modules/bootstrap/dist/css/bootstrap-theme.css'},
-                           {from: './node_modules/bootstrap/dist/css/bootstrap.css', to: 'node_modules/bootstrap/dist/css/bootstrap.css'}
+                           {from: './src/libs', to: 'libs/'}
                            ]),
     new ContextReplacementPlugin(
       // The (\\|\/) piece accounts for path separators in *nix and Windows
