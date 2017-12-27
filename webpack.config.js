@@ -23,6 +23,7 @@ module.exports = {
   devtool: 'source-map',
   entry: {
     'main'  : './src/main.ts',
+    'testvr': './src/testvr.ts',
     'vendor': './src/vendor.ts'
   },
   module: {
@@ -37,7 +38,7 @@ module.exports = {
   },
   output: {
     path    : path.join(__dirname, 'dist'),
-    filename: 'wandervr-bundle.js'
+    filename: '[name].entry.js'
   },
   plugins: [
     new CommonsChunkPlugin({name: 'vendor', filename: 'wandervr-vendor.bundle.js', minChunks: Infinity}),

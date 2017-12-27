@@ -19,6 +19,7 @@ module.exports = {
   devtool: 'source-map',
   entry: {
     'main'  : './src/main.ts',
+    'testvr': './src/testvr.ts',
     'vendor': './src/vendor.ts'
   },
   module: {
@@ -33,12 +34,13 @@ module.exports = {
   },
   output: {
     path    : '/xdd-learn/xdd-wandervr/dist',
-    filename: 'wandervr-bundle.js'
+    filename: '[name].entry.js'
   },
   plugins: [
     new CommonsChunkPlugin({name: 'vendor', filename: 'wandervr-vendor.bundle.js', minChunks: Infinity}),
     new CompressionPlugin({regExp: /\.css$|\.html$|\.js$|\.map$/}),
     new CopyWebpackPlugin([{from: './src/index.html', to: 'index.html'},
+                           {from: './src/testvr.html', to: 'testvr.html'},
                            {from: './src/assets', to: 'assets/'},
                            {from: './src/libs', to: 'libs/'}
                            ]),

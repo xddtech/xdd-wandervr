@@ -25,6 +25,7 @@ export class CubeShow {
         CubeShow.showClock = new THREE.Clock();
         var appScene = new THREE.Scene();
         CubeShow.appScene = appScene;
+        appScene.background = new THREE.Color( 0x505050 );
 
         this.addCameraAndControls();
 
@@ -32,7 +33,8 @@ export class CubeShow {
         var appRender = new THREE.WebGLRenderer( { antialias: true } );
         CubeShow.appRender = appRender;
         appRender.setPixelRatio( window.devicePixelRatio );
-        CubeShow.onWindowResize();
+        //CubeShow.onWindowResize();
+        appRender.setSize( window.innerWidth, window.innerHeight );
         appRender.vr.enabled = true;
         showElement.appendChild( appRender.domElement );
         showElement.appendChild( WEBVR.createButton( appRender ) );
@@ -66,9 +68,9 @@ export class CubeShow {
 
     static onWindowResize() {
         var height = window.innerHeight;
-        CubeShow.appRender.setSize(window.innerWidth, height);
         CubeShow.appCamera.aspect = window.innerWidth / height;
         CubeShow.appCamera.updateProjectionMatrix();
+        CubeShow.appRender.setSize(window.innerWidth, height);
     }
 
     addCameraAndControls(): void {
