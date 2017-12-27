@@ -23,6 +23,7 @@ module.exports = {
   devtool: 'source-map',
   entry: {
     'main'  : './src/main.ts',
+    'ball'  : './src/ball.ts',
     'testvr': './src/testvr.ts',
     'vendor': './src/vendor.ts'
   },

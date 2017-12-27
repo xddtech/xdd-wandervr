@@ -19,6 +19,7 @@ module.exports = {
   devtool: 'source-map',
   entry: {
     'main'  : './src/main.ts',
+    'ball'  : './src/ball.ts',
     'testvr': './src/testvr.ts',
     'vendor': './src/vendor.ts'
   },
@@ -40,6 +41,7 @@ module.exports = {
     new CommonsChunkPlugin({name: 'vendor', filename: 'wandervr-vendor.bundle.js', minChunks: Infinity}),
     new CompressionPlugin({regExp: /\.css$|\.html$|\.js$|\.map$/}),
     new CopyWebpackPlugin([{from: './src/index.html', to: 'index.html'},
+                           {from: './src/cube.html', to: 'cube.html'},
                            {from: './src/testvr.html', to: 'testvr.html'},
                            {from: './src/assets', to: 'assets/'},
                            {from: './src/libs', to: 'libs/'}
