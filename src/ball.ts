@@ -25,6 +25,8 @@ class BallShow {
         appScene.add( appCamera );
         this.addCrosshair();
 
+        this.addAppObjects();
+
         appScene.add( new THREE.HemisphereLight( 0x606060, 0x404040 ) );
         var light = new THREE.DirectionalLight( 0xffffff );
         light.position.set( 1, 1, 1 ).normalize();
@@ -49,13 +51,45 @@ class BallShow {
         document.body.appendChild( WEBVR.createButton( appRenderer ) );
     }
 
+    addAppObjects() {
+        appRoom = new THREE.Mesh(
+            new THREE.BoxGeometry( 6, 6, 6, 8, 8, 8 ),
+            new THREE.MeshBasicMaterial( { color: 0x404040, wireframe: true } )
+        );
+        appScene.add( appRoom );
+
+        var geometry = new THREE.BoxGeometry( 0.15, 0.15, 0.15 );
+        
+        for ( var i = 0; i < 200; i ++ ) {
+            var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } ) );
+            object.position.x = Math.random() * 4 - 2;
+            object.position.y = Math.random() * 4 - 2;
+            object.position.z = Math.random() * 4 - 2;
+        
+            object.rotation.x = Math.random() * 2 * Math.PI;
+            object.rotation.y = Math.random() * 2 * Math.PI;
+            object.rotation.z = Math.random() * 2 * Math.PI;
+        
+            object.scale.x = Math.random() + 0.5;
+            object.scale.y = Math.random() + 0.5;
+            object.scale.z = Math.random() + 0.5;
+        
+            object.userData.velocity = new THREE.Vector3();
+            object.userData.velocity.x = Math.random() * 0.01 - 0.005;
+            object.userData.velocity.y = Math.random() * 0.01 - 0.005;
+            object.userData.velocity.z = Math.random() * 0.01 - 0.005;
+        
+            appRoom.add( object );
+        }
+    }
+
     addAppInfo() {
         var info = document.createElement( 'div' );
         info.style.position = 'absolute';
         info.style.top = '10px';
         info.style.width = '100%';
         info.style.textAlign = 'center';
-        info.innerHTML = 'Wonder Balls';
+        info.innerHTML = 'Wander Balls';
         appContainer.appendChild( info );
     }
 
@@ -112,6 +146,56 @@ function animateBall() {
 
 function renderBall() {
     var delta = appClock.getDelta() * 60;
+
+    if ( isMouseDownBall === true ) {
+        var cube = appRoom.children[ 0 ];
+        appRoom.remove( cube );
+        
+        cube.position.set( 0, 0, - 0.75 );
+        cube.position.applyQuaternion( appCamera.quaternion );
+        cube.userData.velocity.x = ( Math.random() - 0.5 ) * 0.02 * delta;
+        cube.userData.velocity.y = ( Math.random() - 0.5 ) * 0.02 * delta;
+        cube.userData.velocity.z = ( Math.random() * 0.01 - 0.05 ) * delta;
+        cube.userData.velocity.applyQuaternion( appCamera.quaternion );
+        appRoom.add( cube );
+    }
+
+    // find intersections
+    appRaycaster.setFromCamera( { x: 0, y: 0 }, appCamera );
+    var intersects = appRaycaster.intersectObjects( appRoom.children );
+    if ( intersects.length > 0 ) {
+        if ( appINTERSECTED != intersects[ 0 ].object ) {
+            if ( appINTERSECTED ) appINTERSECTED.material.emissive.setHex( appINTERSECTED.currentHex );
+            appINTERSECTED = intersects[ 0 ].object;
+            appINTERSECTED.currentHex = appINTERSECTED.material.emissive.getHex();
+            appINTERSECTED.material.emissive.setHex( 0xff0000 );
+        }
+    } else {
+        if ( appINTERSECTED ) appINTERSECTED.material.emissive.setHex( appINTERSECTED.currentHex );
+        appINTERSECTED = undefined;
+    }
+
+    // Keep cubes inside room
+    for ( var i = 0; i < appRoom.children.length; i ++ ) {
+        var cube = appRoom.children[ i ];
+        cube.userData.velocity.multiplyScalar( 1 - ( 0.001 * delta ) );
+        cube.position.add( cube.userData.velocity );
+        if ( cube.position.x < - 3 || cube.position.x > 3 ) {
+            cube.position.x = THREE.Math.clamp( cube.position.x, - 3, 3 );
+            cube.userData.velocity.x = - cube.userData.velocity.x;
+        }
+        if ( cube.position.y < - 3 || cube.position.y > 3 ) {
+            cube.position.y = THREE.Math.clamp( cube.position.y, - 3, 3 );
+            cube.userData.velocity.y = - cube.userData.velocity.y;
+        }
+        if ( cube.position.z < - 3 || cube.position.z > 3 ) {
+            cube.position.z = THREE.Math.clamp( cube.position.z, - 3, 3 );
+            cube.userData.velocity.z = - cube.userData.velocity.z;
+        }
+        cube.rotation.x += cube.userData.velocity.x * 2 * delta;
+        cube.rotation.y += cube.userData.velocity.y * 2 * delta;
+        cube.rotation.z += cube.userData.velocity.z * 2 * delta;
+    }
 
     appRenderer.render( appScene, appCamera );
 }
