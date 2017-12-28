@@ -9,6 +9,9 @@ var isMouseDownBall = false;
 
 var appINTERSECTED;
 var appCrosshair;
+var ballPickTime;
+var pickSound;
+var dogSound;
 
 
 class BallShow {
@@ -31,6 +34,27 @@ class BallShow {
         var light = new THREE.DirectionalLight( 0xffffff );
         light.position.set( 1, 1, 1 ).normalize();
         appScene.add( light );
+
+        var listener = new THREE.AudioListener();
+        appCamera.add( listener );
+        pickSound = new THREE.Audio( listener );
+        var audioLoader = new THREE.AudioLoader();
+        audioLoader.load( '/assets/ping_pong.mp3', function( buffer ) {
+            pickSound.setBuffer( buffer );
+            pickSound.setLoop( false );
+            pickSound.setVolume( 0.5 );
+        });
+
+        var dogListener = new THREE.AudioListener();
+        appCamera.add( dogListener );
+        dogSound = new THREE.Audio( dogListener );
+        var dogAudioLoader = new THREE.AudioLoader();
+        dogAudioLoader.load( '/assets/dog.ogg', function( buffer ) {
+            dogSound.setBuffer( buffer );
+            dogSound.setLoop( false );
+            dogSound.setVolume( 0.5 );
+            dogSound.play();
+        });
 
         appRaycaster = new THREE.Raycaster();
         
@@ -58,8 +82,8 @@ class BallShow {
         );
         appScene.add( appRoom );
 
+        /*
         var geometry = new THREE.BoxGeometry( 0.15, 0.15, 0.15 );
-        
         for ( var i = 0; i < 200; i ++ ) {
             var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } ) );
             object.position.x = Math.random() * 4 - 2;
@@ -73,6 +97,26 @@ class BallShow {
             object.scale.x = Math.random() + 0.5;
             object.scale.y = Math.random() + 0.5;
             object.scale.z = Math.random() + 0.5;
+        
+            object.userData.velocity = new THREE.Vector3();
+            object.userData.velocity.x = Math.random() * 0.01 - 0.005;
+            object.userData.velocity.y = Math.random() * 0.01 - 0.005;
+            object.userData.velocity.z = Math.random() * 0.01 - 0.005;
+        
+            appRoom.add( object );
+        }
+        */
+
+        var ballGeom = new THREE.SphereGeometry(0.2, 20, 20 );
+        for ( var i = 0; i < 20; i ++ ) {
+            var object = new THREE.Mesh( ballGeom, new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } ) );
+            object.position.x = Math.random() * 4 - 2;
+            object.position.y = Math.random() * 4 - 2;
+            object.position.z = Math.random() * 4 - 2;
+        
+            object.rotation.x = Math.random() * 2 * Math.PI;
+            object.rotation.y = Math.random() * 2 * Math.PI;
+            object.rotation.z = Math.random() * 2 * Math.PI;
         
             object.userData.velocity = new THREE.Vector3();
             object.userData.velocity.x = Math.random() * 0.01 - 0.005;
@@ -169,6 +213,18 @@ function renderBall() {
             appINTERSECTED = intersects[ 0 ].object;
             appINTERSECTED.currentHex = appINTERSECTED.material.emissive.getHex();
             appINTERSECTED.material.emissive.setHex( 0xff0000 );
+            ballPickTime = 0;
+            pickSound.setVolume(0.5);
+            pickSound.play();
+        } else {
+            ballPickTime += appClock.getDelta();
+            if (ballPickTime > 2) {
+                appINTERSECTED.userData.velocity.x = 2 * appINTERSECTED.userData.velocity.x;
+                appINTERSECTED.userData.velocity.y = 2 * appINTERSECTED.userData.velocity.y;
+                appINTERSECTED.userData.velocity.z = 2 * appINTERSECTED.userData.velocity.z;
+                pickSound.setVolume(2);
+                pickSound.play();
+            }
         }
     } else {
         if ( appINTERSECTED ) appINTERSECTED.material.emissive.setHex( appINTERSECTED.currentHex );
