@@ -101,7 +101,7 @@ class BallShow {
         appScene.add(skyMesh);
 
         var loader2 = new THREE.TextureLoader();
-        var texture2 = loader.load("/assets/textures/sand.png");
+        var texture2 = loader.load("/assets/textures/lake-water.jpg");
         texture2.wrapS = THREE.MirroredRepeatWrapping;
         texture2.wrapT = THREE.MirroredRepeatWrapping;
         texture2.repeat.set(1, 1);
