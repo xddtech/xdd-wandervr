@@ -82,6 +82,43 @@ class BallShow {
         );
         appScene.add( appRoom );
 
+        var loader = new THREE.TextureLoader();
+        var texture = loader.load("/assets/background-1.png");
+        texture.wrapS = THREE.MirroredRepeatWrapping;
+        texture.wrapT = THREE.MirroredRepeatWrapping;
+        texture.repeat.set(1, 1);
+        texture.flipY = false;
+        var skyParam = {
+          //color: 0xeeeeee,
+          shininess: 1,
+          specular: 0xffffff, 
+          map: texture
+        };
+        var skyGeometry = new THREE.PlaneGeometry(6, 6, 8, 8);
+        var skyMaterial = new THREE.MeshPhongMaterial( skyParam );
+        var skyMesh = new THREE.Mesh(skyGeometry, skyMaterial );
+        skyMesh.position.z = -3.1;
+        appScene.add(skyMesh);
+
+        var loader2 = new THREE.TextureLoader();
+        var texture2 = loader.load("/assets/textures/sand.png");
+        texture2.wrapS = THREE.MirroredRepeatWrapping;
+        texture2.wrapT = THREE.MirroredRepeatWrapping;
+        texture2.repeat.set(1, 1);
+        texture2.flipY = false;
+        var grdParam = {
+          //color: 0xeeeeee,
+          shininess: 1,
+          specular: 0xffffff, 
+          map: texture2
+        };
+        var grdGeometry = new THREE.PlaneGeometry(6, 6, 8, 8);
+        var grdMaterial = new THREE.MeshPhongMaterial( grdParam );
+        var grdMesh = new THREE.Mesh(grdGeometry, grdMaterial );
+        grdMesh.rotation.x = -0.5 * Math.PI;
+        grdMesh.position.y = -3.1;
+        appScene.add(grdMesh);
+
         /*
         var geometry = new THREE.BoxGeometry( 0.15, 0.15, 0.15 );
         for ( var i = 0; i < 200; i ++ ) {
@@ -219,9 +256,9 @@ function renderBall() {
         } else {
             ballPickTime += appClock.getDelta();
             if (ballPickTime > 2) {
-                appINTERSECTED.userData.velocity.x = 2 * appINTERSECTED.userData.velocity.x;
-                appINTERSECTED.userData.velocity.y = 2 * appINTERSECTED.userData.velocity.y;
-                appINTERSECTED.userData.velocity.z = 2 * appINTERSECTED.userData.velocity.z;
+                appINTERSECTED.userData.velocity.x = 2 * appINTERSECTED.userData.velocity.x + 0.0001;
+                appINTERSECTED.userData.velocity.y = 2 * appINTERSECTED.userData.velocity.y + 0.0001;
+                appINTERSECTED.userData.velocity.z = 2 * appINTERSECTED.userData.velocity.z + 0.0001;
                 pickSound.setVolume(2);
                 pickSound.play();
             }
