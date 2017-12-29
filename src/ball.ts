@@ -87,7 +87,7 @@ class BallShow {
         texture.wrapS = THREE.MirroredRepeatWrapping;
         texture.wrapT = THREE.MirroredRepeatWrapping;
         texture.repeat.set(1, 1);
-        texture.flipY = false;
+        texture.flipY = true;
         var skyParam = {
           //color: 0xeeeeee,
           shininess: 1,
@@ -254,15 +254,20 @@ function renderBall() {
             pickSound.setVolume(0.5);
             pickSound.play();
             
+            appINTERSECTED.userData.velocity.x = 2 * appINTERSECTED.userData.velocity.x + 0.0005;
+            appINTERSECTED.userData.velocity.y = 2 * appINTERSECTED.userData.velocity.y + 0.0005;
+            appINTERSECTED.userData.velocity.z = 2 * appINTERSECTED.userData.velocity.z + 0.0005;
+            var vel = Math.abs(appINTERSECTED.userData.velocity.x) + 
+                      Math.abs(appINTERSECTED.userData.velocity.y) + Math.abs(appINTERSECTED.userData.velocity.z);
+            if (vel > 0.03) {
+                dogSound.play();
+            }
+        } else {
+            ballPickTime += appClock.getDelta();
             appINTERSECTED.userData.velocity.x = 2 * appINTERSECTED.userData.velocity.x + 0.0001;
             appINTERSECTED.userData.velocity.y = 2 * appINTERSECTED.userData.velocity.y + 0.0001;
             appINTERSECTED.userData.velocity.z = 2 * appINTERSECTED.userData.velocity.z + 0.0001;
-        } else {
-            ballPickTime += appClock.getDelta();
             if (ballPickTime > 2) {
-                appINTERSECTED.userData.velocity.x = 2 * appINTERSECTED.userData.velocity.x + 0.0001;
-                appINTERSECTED.userData.velocity.y = 2 * appINTERSECTED.userData.velocity.y + 0.0001;
-                appINTERSECTED.userData.velocity.z = 2 * appINTERSECTED.userData.velocity.z + 0.0001;
                 pickSound.setVolume(2);
                 pickSound.play();
             }
