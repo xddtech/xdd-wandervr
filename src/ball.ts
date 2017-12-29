@@ -83,7 +83,7 @@ class BallShow {
         appScene.add( appRoom );
 
         var loader = new THREE.TextureLoader();
-        var texture = loader.load("/assets/textures/lake-water-1.png");
+        var texture = loader.load("/assets/lake-view.png");
         texture.wrapS = THREE.MirroredRepeatWrapping;
         texture.wrapT = THREE.MirroredRepeatWrapping;
         texture.repeat.set(1, 1);
@@ -254,23 +254,24 @@ function renderBall() {
             pickSound.setVolume(0.5);
             pickSound.play();
             
-            appINTERSECTED.userData.velocity.x = 2 * appINTERSECTED.userData.velocity.x + 0.0005;
-            appINTERSECTED.userData.velocity.y = 2 * appINTERSECTED.userData.velocity.y + 0.0005;
-            appINTERSECTED.userData.velocity.z = 2 * appINTERSECTED.userData.velocity.z + 0.0005;
+            var dv = ( Math.random() - 0.5 ) * 0.0005;
+            appINTERSECTED.userData.velocity.x = 2 * appINTERSECTED.userData.velocity.x + dv;
+            appINTERSECTED.userData.velocity.y = 2 * appINTERSECTED.userData.velocity.y + dv;
+            appINTERSECTED.userData.velocity.z = 2 * appINTERSECTED.userData.velocity.z + dv;
             var vel = Math.abs(appINTERSECTED.userData.velocity.x) + 
                       Math.abs(appINTERSECTED.userData.velocity.y) + Math.abs(appINTERSECTED.userData.velocity.z);
-            if (vel > 0.03) {
+            if (vel > 0.04) {
                 dogSound.play();
             }
         } else {
             ballPickTime += appClock.getDelta();
-            appINTERSECTED.userData.velocity.x = 2 * appINTERSECTED.userData.velocity.x + 0.0001;
-            appINTERSECTED.userData.velocity.y = 2 * appINTERSECTED.userData.velocity.y + 0.0001;
-            appINTERSECTED.userData.velocity.z = 2 * appINTERSECTED.userData.velocity.z + 0.0001;
-            if (ballPickTime > 2) {
-                pickSound.setVolume(2);
-                pickSound.play();
-            }
+            //appINTERSECTED.userData.velocity.x = 2 * appINTERSECTED.userData.velocity.x + 0.0001;
+            //appINTERSECTED.userData.velocity.y = 2 * appINTERSECTED.userData.velocity.y + 0.0001;
+            //appINTERSECTED.userData.velocity.z = 2 * appINTERSECTED.userData.velocity.z + 0.0001;
+            //if (ballPickTime > 2) {
+            //    pickSound.setVolume(2);
+            //    pickSound.play();
+            //}
         }
     } else {
         if ( appINTERSECTED ) appINTERSECTED.material.emissive.setHex( appINTERSECTED.currentHex );
