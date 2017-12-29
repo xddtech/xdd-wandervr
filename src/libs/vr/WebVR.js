@@ -7,7 +7,7 @@
 
 var WEBVR = {
 
-	createButton: function ( renderer ) {
+	createButton: function ( renderer) {
 
 		function showEnterVR( display ) {
 

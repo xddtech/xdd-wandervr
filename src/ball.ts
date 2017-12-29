@@ -72,7 +72,7 @@ class BallShow {
         window.addEventListener( 'resize', onWindowResizeBall, false );
         window.addEventListener( 'vrdisplaypointerrestricted', onPointerRestrictedBall, false );
         window.addEventListener( 'vrdisplaypointerunrestricted', onPointerUnrestrictedBall, false );
-        document.body.appendChild( WEBVR.createButton( appRenderer ) );
+        document.body.appendChild( WEBVR.createButton( appRenderer) );
     }
 
     addAppObjects() {
@@ -83,7 +83,7 @@ class BallShow {
         appScene.add( appRoom );
 
         var loader = new THREE.TextureLoader();
-        var texture = loader.load("/assets/background-1.png");
+        var texture = loader.load("/assets/textures/lake-water-1.png");
         texture.wrapS = THREE.MirroredRepeatWrapping;
         texture.wrapT = THREE.MirroredRepeatWrapping;
         texture.repeat.set(1, 1);
@@ -101,7 +101,7 @@ class BallShow {
         appScene.add(skyMesh);
 
         var loader2 = new THREE.TextureLoader();
-        var texture2 = loader.load("/assets/textures/lake-water.jpg");
+        var texture2 = loader.load("/assets/textures/sand.png");
         texture2.wrapS = THREE.MirroredRepeatWrapping;
         texture2.wrapT = THREE.MirroredRepeatWrapping;
         texture2.repeat.set(1, 1);
@@ -253,6 +253,10 @@ function renderBall() {
             ballPickTime = 0;
             pickSound.setVolume(0.5);
             pickSound.play();
+            
+            appINTERSECTED.userData.velocity.x = 2 * appINTERSECTED.userData.velocity.x + 0.0001;
+            appINTERSECTED.userData.velocity.y = 2 * appINTERSECTED.userData.velocity.y + 0.0001;
+            appINTERSECTED.userData.velocity.z = 2 * appINTERSECTED.userData.velocity.z + 0.0001;
         } else {
             ballPickTime += appClock.getDelta();
             if (ballPickTime > 2) {
